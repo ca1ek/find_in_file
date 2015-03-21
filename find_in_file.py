@@ -1,4 +1,4 @@
-__author__ = 'Dawid'
+__author__ = 'ca1ek'
 
 import string
 
