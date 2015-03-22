@@ -32,15 +32,22 @@ try:
     search_in = open(str(args.file))
     search_for = str(args.text)
 
+    second_search = False
+
     response = "y"
     while response.upper() == "Y":
         found_at = find_in_data(search_in, search_for)
         print("Found, word #" + str(found_at + 1) + "\n Continue searching? (y/n)")
         response = str(raw_input())
+        if response.upper() == "Y":
+            second_search = True
 
 
 except ValueError:
-    print("Text was not found, please try again.")
+    if second_search:
+        print("No more occurrences of that word found")
+    else:
+        print("Text was not found.")
 
 except IOError:
     print("File does not exist, please check filename.")
