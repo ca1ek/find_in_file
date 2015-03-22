@@ -32,4 +32,6 @@ try:
 
 except ValueError:
     print("Text was not found, please try again.")
-    
+
+except IOError:
+    print("File does not exist, please check filename.")
