@@ -16,11 +16,14 @@ def split_all_in_array(to_split, split_by):
             words.append(word)
     return words
 
-def find_in_data(srch_in, srch_for):
-    data = srch_in.read().splitlines()  # array split at lines
-    data = split_all_in_array(data, " ")  # array split at words
+def find_in_data(srch_in, srch_for, earlier_data):
+    if not earlier_data:
+        data = srch_in.read().splitlines()  # array split at lines
+        data = split_all_in_array(data, " ")  # array split at words
+    if earlier_data:
+        data = earlier_data
     position = data.index(srch_for)  # first position found
-    return position
+    return position, data
 
 try:
 
@@ -31,8 +34,14 @@ try:
 
     response = "y"
     while response.upper() == "Y":
-        found_at = find_in_data(search_in, search_for)
+        if second_search:
+            found_at, earlier_data = find_in_data(search_in, search_for, earlier_data)
+        else:
+            found_at, earlier_data = find_in_data(search_in, search_for, False)
+
         print("Found, word #" + str(found_at + 1))
+        del earlier_data[found_at]
+
         if not args.all:
             print("Continue searching? (y/n)")
             response = str(raw_input())
