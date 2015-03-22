@@ -21,17 +21,23 @@ def split_all_in_array(to_split, split_by):
             words.append(word)
     return words
 
+def find_in_data(srch_in, srch_for):
+    data = srch_in.read().splitlines()  # array split at lines
+    data = split_all_in_array(data, " ")  # array split at words
+    position = data.index(srch_for)  # first position found
+    return position
+
 try:
 
     search_in = open(str(args.file))
     search_for = str(args.text)
 
+    response = "y"
+    while response.upper() == "Y":
+        found_at = find_in_data(search_in, search_for)
+        print("Found, word #" + str(found_at + 1) + "\n Continue searching? (y/n)")
+        response = str(raw_input())
 
-    data = search_in.read().splitlines()  # array split at lines
-    data = split_all_in_array(data, " ")  # array split at words
-    position = data.index(search_for)  # first position found
-
-    print(str(position + 1))
 
 except ValueError:
     print("Text was not found, please try again.")
