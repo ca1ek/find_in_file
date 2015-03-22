@@ -23,9 +23,13 @@ def split_all_in_array(to_split, split_by):
             words.append(word)
     return words
 
+try:
+    data = search_in.read().splitlines()  # array split at lines
+    data = split_all_in_array(data, " ")  # array split at words
+    position = data.index(search_for)  # first position found
 
-data = search_in.read().splitlines()  # array split at lines
-data = split_all_in_array(data, " ")  # array split at words
-position = data.index(search_for)  # first position found
+    print(str(position + 1))
 
-print(str(position + 1))
+except ValueError:
+    print("Text was not found, please try again.")
+    
