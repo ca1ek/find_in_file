@@ -5,6 +5,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("file", help='file to search in')
 parser.add_argument("text", help='text to be searched in the file')
+parser.add_argument("-a", "--all", help="show all occurrences of the word without any prompting", action="store_true")
 args = parser.parse_args()
 
 def split_all_in_array(to_split, split_by):
@@ -31,16 +32,20 @@ try:
     response = "y"
     while response.upper() == "Y":
         found_at = find_in_data(search_in, search_for)
-        print("Found, word #" + str(found_at + 1) + "\n Continue searching? (y/n)")
-        response = str(raw_input())
+        print("Found, word #" + str(found_at + 1))
+        if not args.all:
+            print("Continue searching? (y/n)")
+            response = str(raw_input())
+        else:
+            response = "Y"
         if response.upper() == "Y":
             second_search = True
 
 
 except ValueError:
-    if second_search:
+    if second_search and not args.all:
         print("No more occurrences of that word found")
-    else:
+    elif not args.all:
         print("Text was not found.")
 
 except IOError:
