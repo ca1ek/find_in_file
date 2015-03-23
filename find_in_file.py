@@ -6,6 +6,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("file", help='file to search in')
 parser.add_argument("text", help='text to be searched in the file')
 parser.add_argument("-a", "--all", help="show all occurrences of the word without any prompting", action="store_true")
+parser.add_argument("-s", "--simple", help="returns only position of words separated with semicolons, works only with -a", action="store_true")
 args = parser.parse_args()
 
 def split_all_in_array(to_split, split_by):
@@ -39,8 +40,12 @@ try:
         else:
             found_at, earlier_data = find_in_data(search_in, search_for, False)
 
-        print("Found, word #" + str(found_at + 1))
-        del earlier_data[found_at]
+        if not args.simple:
+            print("Found, word #" + str(found_at + 1))
+            del earlier_data[found_at]
+        elif args.simple:
+            print(str(found_at + 1) + ";")
+            del earlier_data[found_at]
 
         if not args.all:
             print("Continue searching? (y/n)")
@@ -56,6 +61,8 @@ except ValueError:
         print("No more occurrences of that word found")
     elif not args.all:
         print("Text was not found.")
+    elif args.simple:
+        print("")
 
 except IOError:
     print("File does not exist, please check filename.")
